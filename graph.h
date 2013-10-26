@@ -8,26 +8,40 @@
  * list.
  */
 
+#include "util.h"
+
 #include <vector>
 #include <memory>
+#include <string>
 #include <map>
-using std::vector;
-using std::unique_ptr;
-using std::map;
 
 namespace drm
 {
+using std::vector;
+using std::string;
+using std::unique_ptr;
+using std::map;
 
 enum GraphType { SimpleUndirected, SimpleDirected };
-enum FileType { DIMACS, DOT };
+enum FileType { DIMACS, DOT, JSON_Tree };
+enum BranchDir { Up, Down };
 
 class Graph
 {
+
 public:
 	
+	struct VertexData
+	{
+		// Information about the vertex
+		string name;
+		// Subclass vertex data to add more information
+	};
+
+	typedef deep_ptr<VertexData> VertexDataPtr;
+
 	// Constructors, assignment operator, destructor
-	Graph(GraphType type);
-	Graph(const char* filename, FileType type);
+	Graph(GraphType type = SimpleUndirected);
 	Graph(const Graph& g);
 	Graph& operator=(Graph g);
 	void swap(Graph& g) { using std::swap; swap(theImpl, g.theImpl); }
@@ -40,6 +54,7 @@ public:
 	void delEdge(int u, int v);
 	void setSource(int s);
 	void setSink(int t);
+	void setType(GraphType t);
 
 	// Global graph properties
 	int order() const;
@@ -54,8 +69,9 @@ public:
 	int degree(int u) const;
 	int outdegree(int u) const;
 	int indegree(int u) const;
-	int getSource() const;
-	int getSink() const;
+	int source() const;
+	int sink() const;
+	VertexDataPtr const vertexData(int u);
 
 	// Edge properties
 	bool hasEdge(int u, int v) const;
@@ -66,7 +82,8 @@ public:
 	
 private:
 	class Impl;
-	unique_ptr<Impl> theImpl;
+	//unique_ptr<Impl> theImpl;
+	Impl* theImpl;
 
 public:
 	// Iterators

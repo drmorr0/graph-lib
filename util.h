@@ -16,12 +16,20 @@ using std::string;
 using std::stringstream;
 using std::setprecision;
 
+struct Point
+{
+	int x, y;
+};
+
 /*** Constants and Types ***/
 const double Tolerance = 0.000000001;
 const double Infinity = std::numeric_limits<double>::max();
 const int MaxInt = std::numeric_limits<int>::max();
 
 /*** Error handling ***/
+namespace drm
+{
+
 class Error : public std::exception
 {
 public:
@@ -42,7 +50,9 @@ private:
 	stringstream _msg;
 };
 
-#define ERROR Error(__FILE__, __LINE__)
+#define DRM_ERROR drm::Error(__FILE__, __LINE__)
+
+};
 
 /*** Miscellaneous utility functions ***/
 template <typename ContainerT, typename U>
@@ -72,6 +82,24 @@ void remove(ContainerT& con, const U& el)
 	auto iter = remove(con.begin(), con.end(), static_cast<ElementT>(el));
 	if (iter != con.end()) con.erase(iter);
 }
+
+/*** Pointers and stuff ***/
+
+template <typename T>
+class deep_ptr
+{
+public:
+	deep_ptr() : mPointer(nullptr) { }
+	deep_ptr(T* obj) : mPointer(obj) { }
+	deep_ptr(const deep_ptr<T>& obj) : mPointer(new T(*(obj.mPointer))) { }
+	~deep_ptr() { delete mPointer; }
+	const T& operator*() const { return *mPointer; }
+	const T* operator->() const { return mPointer; }
+
+private:
+	T& operator=(const T& rhs);
+	T* mPointer;
+};
 
 #endif // UTIL_H
 
