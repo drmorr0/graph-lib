@@ -35,10 +35,9 @@ public:
 	{
 		// Information about the vertex
 		string name;
-		// Subclass vertex data to add more information
 	};
 
-	typedef deep_ptr<VertexData> VertexDataPtr;
+	typedef deep_ptr<VertexData, false> VertexDataPtr;
 
 	// Constructors, assignment operator, destructor
 	Graph(GraphType type = SimpleUndirected);
@@ -76,10 +75,6 @@ public:
 	// Edge properties
 	bool hasEdge(int u, int v) const;
 
-	// Output
-	void print() const;
-	void printShort() const;
-	
 private:
 	class Impl;
 	//unique_ptr<Impl> theImpl;

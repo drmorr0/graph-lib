@@ -31,7 +31,6 @@ class Graph::Impl
 {
 public:
 	
-	// Constructors, assignment operator, destructor
 	Impl(GraphType type);
 
 	void addVertex(int u);
@@ -59,15 +58,12 @@ public:
 
 	bool hasEdge(int u, int v) const; 
 
-	void print() const;
-	void printShort() const;
-	
 private:
 	// Graph structure
 	GraphType mType;
 	map<int, vector<int>> mAdjList;
 	map<int, vector<int>> mRevAdjList;
-	map<int, VertexDataPtr> mVertexData;
+	map<int, deep_ptr<VertexData, true>> mVertexData;
 
 	int mSource, mSink;
 	int mNumEdges;

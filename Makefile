@@ -5,7 +5,7 @@
 #    make sure the directory exists)
 # 3. Change $(EXEC) to be the name you want for your executable
 
-SRCS = graph.cpp graph_utils.cpp graph_order.cpp graph_io.cpp 
+SRCS = graph.cpp graph_utils.cpp graph_order.cpp graph_io.cpp graph_layout.cpp
 CFLAGS = 
 LDFLAGS = 
 EXEC = graph
