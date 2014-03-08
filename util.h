@@ -83,36 +83,6 @@ void remove(ContainerT& con, const U& el)
 	if (iter != con.end()) con.erase(iter);
 }
 
-/*** Pointers and stuff ***/
-
-template <typename T, bool Owner = false>
-class deep_ptr
-{
-	template <typename U, bool O> friend class deep_ptr;
-public:
-	deep_ptr(T* obj = nullptr) : mPointer(obj) { }
-	// TODO I don't know why I can't template out the boolean here, but it causes major
-	// memory leak problems
-	deep_ptr(const deep_ptr<T, true>& obj) 
-	{
-		if (Owner)
-		{
-			if (obj.mPointer) mPointer = new T(*obj.mPointer);
-			else mPointer = nullptr;
-		}
-		else mPointer = obj.mPointer;
-	}
-	~deep_ptr() { if (Owner && mPointer) delete mPointer; }
-	T& operator*() const { return *mPointer; }
-	T* operator->() const { return mPointer; }
-
-	void set(T* obj) { mPointer = obj; }
-
-private:
-	T& operator=(const T& rhs);
-	T* mPointer;
-};
-
 #endif // UTIL_H
 
 

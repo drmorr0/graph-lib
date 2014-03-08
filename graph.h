@@ -23,21 +23,25 @@ using std::unique_ptr;
 using std::map;
 
 enum GraphType { SimpleUndirected, SimpleDirected };
-enum FileType { DIMACS, DOT, JSON_Tree };
-enum BranchDir { Up, Down };
+enum BranchDir { Down = -1, Up = 1 };
+
+struct VertexData
+{
+	// Information about the vertex
+	string name;
+
+	// Positioning information
+	Point center;
+	int radius;
+
+	virtual VertexData* clone() { return new VertexData(*this); }
+	virtual ~VertexData() { }
+};
 
 class Graph
 {
 
 public:
-	
-	struct VertexData
-	{
-		// Information about the vertex
-		string name;
-	};
-
-	typedef deep_ptr<VertexData, false> VertexDataPtr;
 
 	// Constructors, assignment operator, destructor
 	Graph(GraphType type = SimpleUndirected);
@@ -70,7 +74,7 @@ public:
 	int indegree(int u) const;
 	int source() const;
 	int sink() const;
-	VertexDataPtr const vertexData(int u);
+	VertexData* const vertexData(int u);
 
 	// Edge properties
 	bool hasEdge(int u, int v) const;
