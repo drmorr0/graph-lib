@@ -6,18 +6,15 @@
 
 #include <vector>
 
-namespace drm
+namespace graph
 {
 
 class Graph;
 
-namespace GraphUtils
-{
-	double density(const Graph& g);
-	bool testIndSet(const Graph& g, const std::vector<int>& set);
-	bool testClique(const Graph& g, const std::vector<int>& set);
-	Graph complement(const Graph& g);
-}; // namespace GraphUtils
+double density(const Graph& g);
+bool testIndSet(const Graph& g, const std::vector<int>& set);
+bool testClique(const Graph& g, const std::vector<int>& set);
+Graph complement(const Graph& g);
 
-}; // namespace drm
+}; // namespace graph
 

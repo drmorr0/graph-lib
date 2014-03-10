@@ -12,20 +12,16 @@
 class Graph;
 class Point;
 
-namespace drm
+namespace graph
 {
 
-namespace GraphUtils
-{
 	// The level-based recursive approach described in HGDV; this function assumes that the graph is
 	// a tree, and that the root of the tree has node id 0.  For simplicity, it also assumes that
 	// the graph is directed (so that arcs point from parent to child).  Undefined behavior results
 	// if these assumptions are violated.
 	void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace);
 
-}; // namespace GraphUtils
-
-}; // namespace drm
+}; // namespace graph
 
 #endif // GRAPH_LAYOUT_H
 

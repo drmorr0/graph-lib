@@ -6,8 +6,6 @@
  * Implementation class for Graph objects
  */
 
-#include "util.h"
-
 #include <vector>
 #include <string>
 #include <fstream>
@@ -17,12 +15,12 @@
 namespace std
 {
 template<>
-void swap<drm::Graph>(drm::Graph& a, drm::Graph& b) { a.swap(b); }
+void swap<graph::Graph>(graph::Graph& a, graph::Graph& b) { a.swap(b); }
 }
 
 using namespace std;
 
-namespace drm
+namespace graph
 {
 
 class Graph::Impl
@@ -36,26 +34,29 @@ public:
 	void addEdge(int u, int v);
 	void delVertex(int u);
 	void delEdge(int u, int v);
-	void setSource(int s) { mSource = s; }
-	void setSink(int t) { mSink = t; }
-	void setType(GraphType t) { mType = t; }
+	bool hasEdge(int u, int v) const; 
+
+	VertexData* const setVertexData(int u, VertexData* data);
+	VertexData* const vertexData(int u); 
 
 	int order() const { return mAdjList.size(); }
 	int size() const { return mNumEdges; }
 	bool isDirected() const { return mType == SimpleDirected; }
 	bool isSimple() const { return true; /* TODO */ }
 	bool isWeighted() const { return false; /* TODO */ }
+
+	void setType(GraphType t) { mType = t; }
 	GraphType type() const { return mType; }
 
 	vector<int> neighbors(int u) const;
 	int degree(int u) const; 
 	int outdegree(int u) const { return degree(u); }
 	int indegree(int u) const;
+
+	void setSource(int s) { mSource = s; }
+	void setSink(int t) { mSink = t; }
 	int source() const { return mSource; }
 	int sink() const { return mSink; }
-	VertexData* const vertexData(int u);
-
-	bool hasEdge(int u, int v) const; 
 
 private:
 
@@ -82,7 +83,6 @@ public:
 	Impl(const Impl& other);
 };
 
-
-}; // namespace drm
+}; // namespace graph
 
 #endif // GRAPH_IMPL_H

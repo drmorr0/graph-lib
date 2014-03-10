@@ -8,30 +8,25 @@
  * list.
  */
 
-#include "util.h"
-
 #include <vector>
 #include <memory>
 #include <string>
 #include <map>
 
-namespace drm
+namespace graph
 {
-using std::vector;
-using std::string;
-using std::unique_ptr;
-using std::map;
 
 enum GraphType { SimpleUndirected, SimpleDirected };
-enum BranchDir { Down = -1, Up = 1 };
+
+struct Point { int x, y; };
 
 struct VertexData
 {
 	// Information about the vertex
-	string name;
+	std::string name;
 
 	// Positioning information
-	Point center;
+	Point center;	
 	int radius;
 
 	virtual VertexData* clone() { return new VertexData(*this); }
@@ -50,14 +45,14 @@ public:
 	void swap(Graph& g) { using std::swap; swap(theImpl, g.theImpl); }
 	~Graph();
 
-	// Graph modification
 	void addVertex(int u);
 	void addEdge(int u, int v);
 	void delVertex(int u);
 	void delEdge(int u, int v);
-	void setSource(int s);
-	void setSink(int t);
-	void setType(GraphType t);
+	bool hasEdge(int u, int v) const;
+
+	VertexData* const setVertexData(int u, VertexData* data);
+	VertexData* const vertexData(int u);
 
 	// Global graph properties
 	int order() const;
@@ -65,33 +60,35 @@ public:
 	bool isDirected() const;
 	bool isSimple() const;
 	bool isWeighted() const;
+
+	void setType(GraphType t);
 	GraphType type() const;
 
 	// Vertex properties
-	vector<int> neighbors(int u) const;
+	std::vector<int> neighbors(int u) const;
 	int degree(int u) const;
 	int outdegree(int u) const;
 	int indegree(int u) const;
+
+	void setSource(int s);
+	void setSink(int t);
 	int source() const;
 	int sink() const;
-	VertexData* const vertexData(int u);
 
-	// Edge properties
-	bool hasEdge(int u, int v) const;
 
 private:
 	class Impl;
-	//unique_ptr<Impl> theImpl;
+	//std::unique_ptr<Impl> theImpl;
 	Impl* theImpl;
 
 public:
 	// Iterators
-	typedef map<int, vector<int>>::const_iterator graph_iterator;
+	typedef std::map<int, std::vector<int>>::const_iterator graph_iterator;
 	graph_iterator begin() const;
 	graph_iterator end() const;
 };
 
 
-}; // namespace drm
+}; // namespace graph 
 
 #endif // GRAPH_H

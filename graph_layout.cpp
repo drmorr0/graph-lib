@@ -9,10 +9,7 @@
 
 using namespace std;
 
-namespace drm
-{
-
-namespace GraphUtils
+namespace graph
 {
 
 struct SubtreeBlock
@@ -24,6 +21,7 @@ SubtreeBlock computeSubtreeLayout(Graph& g, int rId, map<int, Point>& relVertexP
 		int vSpace, int hSpace)
 {
 	auto rData = g.vertexData(rId);
+	if (!rData) rData = g.setVertexData(rId, new VertexData);
 	int rDeg = g.outdegree(rId);
 
 	// Base case -- we have no children, so our span is just the width of the single node
@@ -86,9 +84,7 @@ void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace)
 	}
 }
 
-}; // namespace GraphUtils
-
-}; // namespace drm
+}; // namespace graph
 
 
 

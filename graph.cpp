@@ -17,7 +17,7 @@
 
 using namespace std;
 
-namespace drm
+namespace graph
 {
 
 // Create an empty graph
@@ -116,20 +116,25 @@ int Graph::Impl::indegree(int u) const
 	return iter != mRevAdjList.end() ? iter->second.size() : 0;
 }
 
-// Return a pointer to the vertex data associated with vertex u
-VertexData* const Graph::Impl::vertexData(int u) 
-{
-	if (mAdjList.count(u) == 0) addVertex(u);
-	if (mVertexData.count(u) == 0)
-		mVertexData[u] = new VertexData;
-	return mVertexData[u];
-}
-
 // Check to see if an edge exists
 bool Graph::Impl::hasEdge(int u, int v) const
 {
 	auto iter = mAdjList.find(u);
 	return (iter != mAdjList.end() && contains(iter->second, v));
+}
+
+VertexData* const Graph::Impl::setVertexData(int u, VertexData* data)
+{
+	if (mAdjList.count(u) == 0) addVertex(u);
+	if (mVertexData.count(u) != 0 && mVertexData[u]) delete mVertexData[u];
+	mVertexData[u] = data;
+	return mVertexData[u];
+}
+
+VertexData* const Graph::Impl::vertexData(int u)
+{
+	if (mVertexData.count(u) == 0) return nullptr;
+	else return mVertexData[u];
 }
 
 // Perform a deep copy of vertex data
@@ -175,6 +180,9 @@ int Graph::outdegree(int u) const { return theImpl->outdegree(u); }
 int Graph::indegree(int u) const { return theImpl->indegree(u); }
 int Graph::source() const { return theImpl->source(); }
 int Graph::sink() const { return theImpl->sink(); }
+
+VertexData* const Graph::setVertexData(int u, VertexData* data) 
+	{ return theImpl->setVertexData(u, data); }
 VertexData* const Graph::vertexData(int u) { return theImpl->vertexData(u); }
 
 bool Graph::hasEdge(int u, int v) const { return theImpl->hasEdge(u, v); }
@@ -183,4 +191,4 @@ Graph::graph_iterator Graph::begin() const { return theImpl->begin(); }
 Graph::graph_iterator Graph::end() const { return theImpl->end(); }
 
 
-}; // namespace drm
+}; // namespace graph

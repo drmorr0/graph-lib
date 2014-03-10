@@ -4,23 +4,21 @@
  * Vertex-ordering functions for the Graph class
  */
 
-namespace drm
+#include <vector>
+
+namespace graph
 {
 
-namespace GraphUtils
-{
-	vector<int> identityVertexOrder(const Graph& g);
-	vector<int> randomVertexOrder(const Graph& g);
-	vector<int> degreeListVertexOrder(const Graph& g);
-	vector<int> outdegreeListVertexOrder(const Graph& g);
-	vector<int> indegreeListVertexOrder(const Graph& g);
-	vector<int> degreeSequence(const Graph& g);
-	vector<int> outdegreeSequence(const Graph& g);
-	vector<int> indegreeSequence(const Graph& g);
+	std::vector<int> identityVertexOrder(const Graph& g);
+	std::vector<int> randomVertexOrder(const Graph& g);
+	std::vector<int> degreeListVertexOrder(const Graph& g);
+	std::vector<int> outdegreeListVertexOrder(const Graph& g);
+	std::vector<int> indegreeListVertexOrder(const Graph& g);
+	std::vector<int> degreeSequence(const Graph& g);
+	std::vector<int> outdegreeSequence(const Graph& g);
+	std::vector<int> indegreeSequence(const Graph& g);
 
-}; // namespace GraphUtils
-
-}; // namespace drm
+}; // namespace graph
 
 
 

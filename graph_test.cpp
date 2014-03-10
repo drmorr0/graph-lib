@@ -9,8 +9,7 @@
 #include <string>
 
 using namespace std;
-using namespace drm;
-using namespace drm::GraphUtils;
+using namespace graph;
 
 #define CHECK(x) checkCondition(x, #x)
 

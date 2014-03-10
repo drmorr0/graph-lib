@@ -6,7 +6,7 @@
  * Functions for input and output for Graphs
  */
 
-namespace drm
+namespace graph
 {
 
 class Graph;
@@ -15,7 +15,7 @@ Graph readDIMACS(const char* filename);
 void print(const Graph& g);
 void printShort(const Graph& g);
 
-}; // namespace drm
+}; // namespace graph
 
 #endif // GRAPH_IO_H
 

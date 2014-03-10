@@ -10,10 +10,7 @@
 
 using namespace std;
 
-namespace drm
-{
-
-namespace GraphUtils
+namespace graph
 {
 
 int myrandom(int i) { return lrand48() % i; }
@@ -73,9 +70,7 @@ vector<int> indegreeSequence(const Graph& g)
 	return seq;
 }
 
-}; // namespace GraphUtils
-
-}; // namespace drm
+}; // namespace graph
 
 
 

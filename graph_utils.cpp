@@ -5,10 +5,7 @@
 
 using namespace std;
 
-namespace drm
-{
-
-namespace GraphUtils
+namespace graph
 {
 
 // Density is computed as number of edges in G divided by total possible number of edges
@@ -72,6 +69,5 @@ void Graph::Impl::computeSortedVertices() const
 }*/
 
 
-}; // namespace GraphUtils
-}; // namespace drm
+}; // namespace graph
 

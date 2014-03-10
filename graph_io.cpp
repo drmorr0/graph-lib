@@ -10,14 +10,14 @@
 
 using namespace std;
 
-namespace drm
+namespace graph
 {
 
 // Read in a graph from a DIMACS .col file
 Graph readDIMACS(const char* filename)
 {
 	ifstream input(filename);
-	if (!input) throw DRM_ERROR << "Unable to open file " << filename << " for reading.";
+	if (!input) throw ERROR << "Unable to open file " << filename << " for reading.";
 	string nextLine;
 
 	// Read from file
@@ -60,11 +60,11 @@ void printShort(const Graph& g)
 {
     printf("Number of nodes: %d\n", g.order());
     printf("Number of arcs: %d\n", g.size());
-    printf("Density: %0.2f\n", GraphUtils::density(g));
+    printf("Density: %0.2f\n", density(g));
 }
 
 
 
-};
+};  // namespace graph
 
 
