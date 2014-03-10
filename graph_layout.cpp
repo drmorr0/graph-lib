@@ -12,10 +12,8 @@ using namespace std;
 namespace graph
 {
 
-struct SubtreeBlock
-{
-	int width, rootX;
-};
+struct Point { int x, y; };
+struct SubtreeBlock { int width, rootX; };
 
 SubtreeBlock computeSubtreeLayout(Graph& g, int rId, map<int, Point>& relVertexPos, 
 		int vSpace, int hSpace)
@@ -53,7 +51,7 @@ SubtreeBlock computeSubtreeLayout(Graph& g, int rId, map<int, Point>& relVertexP
 	return { width, rootX };
 }
 
-void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace)
+void layoutTreeLevel(Graph& g, int rootX, int rootY, int vSpace, int hSpace)
 {
 	// Initialize a map of vertex positions relative to the vertex's parent; i.e.,
 	// relVertexPos[i].x is the position of vertex i relative to the parent of i
@@ -61,8 +59,8 @@ void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace)
 
 	// Initialize the root of the tree
 	auto rootData = g.vertexData(0);
-	rootData->center.x = rootPos.x;
-	rootData->center.y = rootPos.y;
+	rootData->x = rootX;
+	rootData->y = rootY;
 
 	// Compute the subtree layout in terms of relative vertex positions
 	computeSubtreeLayout(g, 0, relVertexPos, vSpace, hSpace);
@@ -77,8 +75,8 @@ void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace)
 		{
 			int child = g.neighbors(currNode)[i];
 			auto childData = g.vertexData(child);
-			childData->center.x = currData->center.x + relVertexPos[child].x;
-			childData->center.y = currData->center.y + relVertexPos[child].y;
+			childData->x = currData->x + relVertexPos[child].x;
+			childData->y = currData->y + relVertexPos[child].y;
 			queue.push_back(child);
 		}
 	}

@@ -18,15 +18,13 @@ namespace graph
 
 enum GraphType { SimpleUndirected, SimpleDirected };
 
-struct Point { int x, y; };
-
 struct VertexData
 {
 	// Information about the vertex
 	std::string name;
 
 	// Positioning information
-	Point center;	
+	int x, y;
 	int radius;
 
 	virtual VertexData* clone() { return new VertexData(*this); }

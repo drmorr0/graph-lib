@@ -10,7 +10,6 @@
  */
 
 class Graph;
-class Point;
 
 namespace graph
 {
@@ -19,7 +18,7 @@ namespace graph
 	// a tree, and that the root of the tree has node id 0.  For simplicity, it also assumes that
 	// the graph is directed (so that arcs point from parent to child).  Undefined behavior results
 	// if these assumptions are violated.
-	void layoutTreeLevel(Graph& g, const Point& rootPos, int vSpace, int hSpace);
+	void layoutTreeLevel(Graph& g, int rootX, int rootY, int vSpace, int hSpace);
 
 }; // namespace graph
 
