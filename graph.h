@@ -23,10 +23,6 @@ struct VertexData
 	// Information about the vertex
 	std::string name;
 
-	// Positioning information
-	int x, y;
-	int radius;
-
 	virtual VertexData* clone() { return new VertexData(*this); }
 	virtual ~VertexData() { }
 };
@@ -50,7 +46,7 @@ public:
 	bool hasEdge(int u, int v) const;
 
 	VertexData* const setVertexData(int u, VertexData* data);
-	VertexData* const vertexData(int u);
+	VertexData* const vertexData(int u) const;
 
 	// Global graph properties
 	int order() const;
@@ -85,7 +81,6 @@ public:
 	graph_iterator begin() const;
 	graph_iterator end() const;
 };
-
 
 }; // namespace graph 
 

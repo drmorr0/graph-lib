@@ -37,7 +37,7 @@ public:
 	bool hasEdge(int u, int v) const; 
 
 	VertexData* const setVertexData(int u, VertexData* data);
-	VertexData* const vertexData(int u); 
+	VertexData* const vertexData(int u) const; 
 
 	int order() const { return mAdjList.size(); }
 	int size() const { return mNumEdges; }

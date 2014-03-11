@@ -15,31 +15,30 @@ namespace graph
 struct Point { int x, y; };
 struct SubtreeBlock { int width, rootX; };
 
-SubtreeBlock computeSubtreeLayout(Graph& g, int rId, map<int, Point>& relVertexPos, 
-		int vSpace, int hSpace)
+namespace params { int vSpace, hSpace, radius; };
+
+SubtreeBlock computeSubtreeLayout(const Graph& g, int rId, map<int, Point>& relVertexPos) 
 {
-	auto rData = g.vertexData(rId);
-	if (!rData) rData = g.setVertexData(rId, new VertexData);
 	int rDeg = g.outdegree(rId);
 
 	// Base case -- we have no children, so our span is just the width of the single node
-	if (rDeg == 0) return { 2 * rData->radius, rData->radius };
+	if (rDeg == 0) return { 2 * params::radius, params::radius };
 
 	// Loop through all the neighbors and recursively compute a layout for them
 	int width = 0;
 	for (int i = 0; i < rDeg; ++i)
 	{
 		int child = g.neighbors(rId)[i];
-		SubtreeBlock block = computeSubtreeLayout(g, child, relVertexPos, vSpace, hSpace);
+		SubtreeBlock block = computeSubtreeLayout(g, child, relVertexPos);
 
 		// The x-coordinate is just the position of the root in the sub-block plus the width
 		// of the current block
 		relVertexPos[child].x = (width + block.rootX);
-		relVertexPos[child].y = vSpace;
+		relVertexPos[child].y = params::vSpace;
 
 		// Increase the width of the current block; if this isn't the last subtree, add in spacing
 		width += block.width;
-		if (i != rDeg - 1) width += hSpace;
+		if (i != rDeg - 1) width += params::hSpace;
 	}
 
 	// Always place the root halfway across the block, then normalize the x-coordinates to be
@@ -51,35 +50,37 @@ SubtreeBlock computeSubtreeLayout(Graph& g, int rId, map<int, Point>& relVertexP
 	return { width, rootX };
 }
 
-void layoutTreeLevel(Graph& g, int rootX, int rootY, int vSpace, int hSpace)
+GraphLayout layoutTreeLevel(const Graph& g, int rootX, int rootY, int radius, int vSpace, int hSpace)
 {
 	// Initialize a map of vertex positions relative to the vertex's parent; i.e.,
 	// relVertexPos[i].x is the position of vertex i relative to the parent of i
 	map<int, Point> relVertexPos;
 
-	// Initialize the root of the tree
-	auto rootData = g.vertexData(0);
-	rootData->x = rootX;
-	rootData->y = rootY;
+	params::hSpace = hSpace;
+	params::vSpace = vSpace;
+	params::radius = radius;
 
 	// Compute the subtree layout in terms of relative vertex positions
-	computeSubtreeLayout(g, 0, relVertexPos, vSpace, hSpace);
+	computeSubtreeLayout(g, 0, relVertexPos);
 
 	// Translate relative positions into absolute positions using breadth-first search
 	list<int> queue{0};
+	GraphLayout layout;
+	layout[0].first = rootX;
+	layout[0].second = rootY;
 	while (!queue.empty())
 	{
 		int currNode = queue.front(); queue.pop_front();
-		auto currData = g.vertexData(currNode);
 		for (int i = 0; i < g.outdegree(currNode); ++i)
 		{
 			int child = g.neighbors(currNode)[i];
-			auto childData = g.vertexData(child);
-			childData->x = currData->x + relVertexPos[child].x;
-			childData->y = currData->y + relVertexPos[child].y;
+			layout[child].first = layout[currNode].first + relVertexPos[child].x;
+			layout[child].second = layout[currNode].second + relVertexPos[child].y;
 			queue.push_back(child);
 		}
 	}
+
+	return layout;
 }
 
 }; // namespace graph

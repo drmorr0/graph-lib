@@ -131,10 +131,10 @@ VertexData* const Graph::Impl::setVertexData(int u, VertexData* data)
 	return mVertexData[u];
 }
 
-VertexData* const Graph::Impl::vertexData(int u)
+VertexData* const Graph::Impl::vertexData(int u) const
 {
 	if (mVertexData.count(u) == 0) return nullptr;
-	else return mVertexData[u];
+	else return mVertexData.find(u)->second;
 }
 
 // Perform a deep copy of vertex data
@@ -183,7 +183,7 @@ int Graph::sink() const { return theImpl->sink(); }
 
 VertexData* const Graph::setVertexData(int u, VertexData* data) 
 	{ return theImpl->setVertexData(u, data); }
-VertexData* const Graph::vertexData(int u) { return theImpl->vertexData(u); }
+VertexData* const Graph::vertexData(int u) const { return theImpl->vertexData(u); }
 
 bool Graph::hasEdge(int u, int v) const { return theImpl->hasEdge(u, v); }
 
