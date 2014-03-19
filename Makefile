@@ -17,7 +17,7 @@ CC = g++
 STD = -std=c++0x
 FORMAT = -fno-pretty-templates
 WARNINGS = -Wempty-body -Wall -Wno-sign-compare
-DEBUGFLAGS = -gstabs -pg
+DEBUGFLAGS = -g -pg
 OPTFLAGS = -O2
 OBJDIR = obj
 OBJS = $(addprefix $(OBJDIR)/,$(SRCS:.cpp=.o))
@@ -61,6 +61,7 @@ clean:
 
 TESTSRC = graph_test.cpp
 test: $(EXECD)
-	$(CC) $(STD) $(FORMAT) -o graph_test -gstabs -pg $(TESTSRC) -L. -lgraph_d
+	$(CC) $(STD) $(FORMAT) -o graph_test -g -pg $(TESTSRC) -L. -lgraph_d
+	./graph_test	
 
 include $(addprefix $(OBJDIR)/,$(SRCS:.cpp=.d))
