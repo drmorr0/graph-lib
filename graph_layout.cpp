@@ -19,16 +19,16 @@ namespace params { int vSpace, hSpace, radius; };
 
 SubtreeBlock computeSubtreeLayout(const Graph& g, int rId, map<int, Point>& relVertexPos) 
 {
-	int rDeg = g.outdegree(rId);
+	vector<int> n = g.neighbors(rId);
 
 	// Base case -- we have no children, so our span is just the width of the single node
-	if (rDeg == 0) return { 2 * params::radius, params::radius };
+	if (n.size() == 0) return { 2 * params::radius, params::radius };
 
 	// Loop through all the neighbors and recursively compute a layout for them
 	int width = 0;
-	for (int i = 0; i < rDeg; ++i)
+	for (int i = 0; i < n.size(); ++i)
 	{
-		int child = g.neighbors(rId)[i];
+		int child = n[i];
 		SubtreeBlock block = computeSubtreeLayout(g, child, relVertexPos);
 
 		// The x-coordinate is just the position of the root in the sub-block plus the width
@@ -38,14 +38,14 @@ SubtreeBlock computeSubtreeLayout(const Graph& g, int rId, map<int, Point>& relV
 
 		// Increase the width of the current block; if this isn't the last subtree, add in spacing
 		width += block.width;
-		if (i != rDeg - 1) width += params::hSpace;
+		if (i != n.size() - 1) width += params::hSpace;
 	}
 
 	// Always place the root halfway across the block, then normalize the x-coordinates to be
 	// relative to the root position
 	int rootX = width / 2;
-	for (int i = 0; i < rDeg; ++i)
-		relVertexPos[g.neighbors(rId)[i]].x -= rootX;
+	for (int i = 0; i < n.size(); ++i)
+		relVertexPos[n[i]].x -= rootX;
 
 	return { width, rootX };
 }
@@ -71,9 +71,10 @@ GraphLayout layoutTreeLevel(const Graph& g, int rootX, int rootY, int radius, in
 	while (!queue.empty())
 	{
 		int currNode = queue.front(); queue.pop_front();
-		for (int i = 0; i < g.outdegree(currNode); ++i)
+		vector<int> n = g.neighbors(currNode);
+		for (int i = 0; i < n.size(); ++i)
 		{
-			int child = g.neighbors(currNode)[i];
+			int child = n[i];
 			layout[child].first = layout[currNode].first + relVertexPos[child].x;
 			layout[child].second = layout[currNode].second + relVertexPos[child].y;
 			queue.push_back(child);
