@@ -9,7 +9,6 @@
  * ed. Tamassia.
  */
 
-class Graph;
 
 #include <map>
 #include <utility>
@@ -18,6 +17,7 @@ typedef std::map<int, std::pair<int, int>> GraphLayout;
 
 namespace graph
 {
+	class Graph;
 
 	// The level-based recursive approach described in HGDV; this function assumes that the graph is
 	// a tree, and that the root of the tree has node id 0.  For simplicity, it also assumes that

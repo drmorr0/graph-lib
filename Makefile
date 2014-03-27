@@ -13,9 +13,9 @@ EXEC = graph
 # You can leave this stuff alone for the most part; it sets the right C++ standard, tells the
 # compiler to print output nicely, and prints some useful warning messages
 
-CC = g++ 
+CC = clang++ 
 STD = -std=c++0x
-FORMAT = -fno-pretty-templates
+FORMAT = 
 WARNINGS = -Wempty-body -Wall -Wno-sign-compare
 DEBUGFLAGS = -g -pg
 OPTFLAGS = -O2
