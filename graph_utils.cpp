@@ -57,16 +57,26 @@ Graph complement(const Graph& g)
 	return gc;
 }
 
-/*
-// Compute a list of vertices ordered in descending order of degree
-void Graph::Impl::computeSortedVertices() const
+// Run DFS to find all vertices reachable from a given input set
+vector<int> getReachable(const Graph& g, const vector<int>& start)
 {
-    mSortedVertices.clear();
-    for (int i = 0; i < mAdjList.size(); ++i)
-        if (mVertexExists[i]) mSortedVertices.push_back(i);
-    sort(mSortedVertices.begin(), mSortedVertices.end(),
-            [this] (int v1, int v2) { return (this->degree(v1) > this->degree(v2)); });
-}*/
+    vector<int> reachable;
+    vector<int> stack(start);
+    map<int, bool> visited;
+
+    while (!stack.empty())
+    {   
+        int u = stack.back(); stack.pop_back();
+        visited[u] = true;
+        reachable.push_back(u);
+        vector<int> n = g.neighbors(u);
+        for (int i = 0; i < n.size(); ++i)
+            if (visited.count(n[i]) == 0)
+                stack.push_back(n[i]);
+    }   
+
+    return reachable;
+}
 
 
 }; // namespace graph

@@ -21,7 +21,7 @@ enum GraphType { SimpleUndirected, SimpleDirected };
 struct VertexData
 {
 	// Information about the vertex
-	std::string name;
+	std::map<std::string, std::string> properties;
 
 	virtual VertexData* clone() { return new VertexData(*this); }
 	virtual ~VertexData() { }
