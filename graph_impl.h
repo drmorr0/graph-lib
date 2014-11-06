@@ -34,10 +34,11 @@ public:
 	void addEdge(int u, int v);
 	void delVertex(int u);
 	void delEdge(int u, int v);
+	bool hasVertex(int u) const; 
 	bool hasEdge(int u, int v) const; 
 
-	VertexData* const setVertexData(int u, VertexData* data);
-	VertexData* const vertexData(int u) const; 
+	VertexData* setVertexData(int u, VertexData* data);
+	VertexData* vertexData(int u) const; 
 
 	int order() const { return mAdjList.size(); }
 	int size() const { return mNumEdges; }

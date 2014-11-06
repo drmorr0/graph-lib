@@ -123,7 +123,12 @@ bool Graph::Impl::hasEdge(int u, int v) const
 	return (iter != mAdjList.end() && contains(iter->second, v));
 }
 
-VertexData* const Graph::Impl::setVertexData(int u, VertexData* data)
+bool Graph::Impl::hasVertex(int u) const
+{
+	return (mAdjList.find(u) != mAdjList.end());
+}
+
+VertexData* Graph::Impl::setVertexData(int u, VertexData* data)
 {
 	if (mAdjList.count(u) == 0) addVertex(u);
 	if (mVertexData.count(u) != 0 && mVertexData[u]) delete mVertexData[u];
@@ -131,7 +136,7 @@ VertexData* const Graph::Impl::setVertexData(int u, VertexData* data)
 	return mVertexData[u];
 }
 
-VertexData* const Graph::Impl::vertexData(int u) const
+VertexData* Graph::Impl::vertexData(int u) const
 {
 	if (mVertexData.count(u) == 0) return nullptr;
 	else return mVertexData.find(u)->second;
@@ -181,11 +186,12 @@ int Graph::indegree(int u) const { return theImpl->indegree(u); }
 int Graph::source() const { return theImpl->source(); }
 int Graph::sink() const { return theImpl->sink(); }
 
-VertexData* const Graph::setVertexData(int u, VertexData* data) 
+VertexData* Graph::setVertexData(int u, VertexData* data) 
 	{ return theImpl->setVertexData(u, data); }
-VertexData* const Graph::vertexData(int u) const { return theImpl->vertexData(u); }
+VertexData* Graph::vertexData(int u) const { return theImpl->vertexData(u); }
 
 bool Graph::hasEdge(int u, int v) const { return theImpl->hasEdge(u, v); }
+bool Graph::hasVertex(int u) const { return theImpl->hasVertex(u); }
 
 Graph::graph_iterator Graph::begin() const { return theImpl->begin(); }
 Graph::graph_iterator Graph::end() const { return theImpl->end(); }
